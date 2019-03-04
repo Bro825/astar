@@ -1,58 +1,82 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
+    <div>
+      <button @click="bone">天降骨头</button>
+      <button @click="cat">小猫来了</button>
+      <button>找路</button>
+    </div>
+    <div
+      v-for="item in list"
+      :key="item"
+      :ref="item"
+      class="square"
+      @click="getPoint(item)"
+    >{{item}}</div>
   </div>
 </template>
-
 <script>
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
+  name: "HelloWorld",
+  data() {
+    return {
+      list: []
+    };
+  },
+  methods: {
+    river() {
+      for (let i = 0; i < 300; i++) {
+        this.$refs[
+          Math.floor(Math.random() * this.list.length)
+        ][0].style.backgroundColor = "brown";
+      }
+    },
+    bone() {
+      let p = Math.floor(Math.random() * this.list.length);
+      this.$refs[p][0].textContent = "肉";
+      this.$refs[p][0].style.borderRadius = "50%";
+      this.$refs[p][0].style.backgroundColor = "yellow";
+       this.$refs[p][0].style.textAlign= "center";
+    },
+    cat() {
+      let p = Math.floor(Math.random() * this.list.length);
+      this.$refs[p][0].textContent = "猫";
+      this.$refs[p][0].style.borderRadius = "50%";
+      this.$refs[p][0].style.backgroundColor = "red";
+      this.$refs[p][0].style.textAlign= "center";
+    },
+    getPoint(item) {
+      // todo 解决边界问题
+    
+      // 获取隔壁方块的值
+      console.log('left',(item-1));
+      console.log('right',(item+1));
+      console.log('top',(item-30));
+      console.log('bottom',(item+30));
+    }
+  },
+  created() {
+    for (let i = 0; i < 900; i++) {
+      this.list.push(i);
+    }
+  },
+  mounted() {
+    this.river();
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
+.hello{
+  width:600px;
+  height:600px;
+
 }
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+.square {
+  background-color: #f7f7fe;
+  height: 20px;
+  width: 20px;
+  float: left;
+  font-size: 0.1px;
 }
 </style>
